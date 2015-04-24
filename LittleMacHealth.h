@@ -23,6 +23,12 @@ public:
 	void Update();
 	void Stop();
 
+	float GetCurrentX(){ return currentX; }
+	float GetCurrentY(){ return currentY; }
+
+	void losesSmallHealth();
+	void losesBigHealth();
+
 private:
 	float currentX, currentY;
 

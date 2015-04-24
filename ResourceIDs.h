@@ -25,7 +25,10 @@ namespace Music
 {
 	enum ID
 	{
-		TestMusic
+		PunchOutMusic,
+		GlassJoeKO,
+		LittleMacKO,
+		GlassJoeIntro
 	};
 }
 

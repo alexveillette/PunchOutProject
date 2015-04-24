@@ -1,7 +1,6 @@
 #include "Littlemac.h"
 #include "Libraries.h"
 
-
 const float Littlemac::SPEED = 100;
 const int LEFT_SIDE_PUNCH = 1;
 const int RIGHT_SIDE_PUNCH = 2;
@@ -10,26 +9,6 @@ const int RIGHT_SIDE_PUNCH = 2;
 
 Littlemac::Littlemac()
 	: Animation(Texture::ID::Littlemac, IDLE_NB_FRAME(), 1, IDLE_START_SRC(), FRAME_SIZE())
-
-	, currentState(IDLE)
-	, isDodging (false)
-	, isPunching (false)
-	, comingBackfromDodgeLeft(false)
-	, comingBackfromDodgeRight(false)
-	, upMode(false)
-	, dodgingLeft(false)
-	, dodgingRight(false)
-	, lowPunch(false)
-	, highPunch(false)
-	, comingBackFromPunch(false)
-	, comingBackFromLowPunch(false)
-	, isBlockingHigh(false)
-	, isMoving(false)
-	, inputDelay(0)
-	, animationDelay(0)
-	, punchConnectedLow(false)
-	, punchConnectedHighLeft(false)
-	, punchConnectedHighRight(false)
 {
 	//Start the animation on creation
 	this->Play();
@@ -37,9 +16,14 @@ Littlemac::Littlemac()
 	this->SetIsLooping(true);
 }
 
-Littlemac::Littlemac(int x, int y, Glassjoe* gj)
+Littlemac::Littlemac(int x, int y, Glassjoe* gj, Hearts* hearts, Stars* stars, Points* points, LittleMacHealth* lmHealth, GlassJoeHealth* gjHealth)
 	: Animation(Texture::ID::Littlemac, IDLE_NB_FRAME(), 1, IDLE_START_SRC(), FRAME_SIZE())
 	, gj(gj)
+	, hearts(hearts)
+	, stars(stars)
+	, points(points)
+	, lmHealth(lmHealth)
+	, gjHealth(gjHealth)
 	, currentState(IDLE)
 	, currentX(x)
 	, currentY(y)
@@ -140,6 +124,8 @@ void Littlemac::changeState(state newState)
 
 void Littlemac::Update()
 {
+	Animation::Update();
+
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 	int punchDir = 0;
 
@@ -151,16 +137,17 @@ void Littlemac::Update()
 		{
 			inputDelay = 0;
 			isMoving = false;
-			
+
 		}
 	}
 
+	// Manage delay of animations to make them mesh
 	if (animationDelay > 0)
 	{
 		animationDelay -= dt;
 	}
-	
 
+	// High punch enabled or disabled
 
 	if (Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_UP))
 	{
@@ -170,12 +157,6 @@ void Littlemac::Update()
 	{
 		upMode = false;
 	}
-
-
-	//Very important, otherwise our animation won't update itself
-	Animation::Update();
-
-	
 
 
 
@@ -193,7 +174,7 @@ void Littlemac::Update()
 			isMoving = true;
 			inputDelay += 0.4;
 			dodgingLeft = true;
-			
+
 		}
 		if (dodgeDir.x == 1)
 		{
@@ -202,18 +183,18 @@ void Littlemac::Update()
 			inputDelay += 0.4;
 			dodgingRight = true;
 		}
-		
+
 	}
 
 
 	//Press left or right to dodge
 	if (dodgeDir.x != 0){
 		isDodging = true;
-		
+
 	}
 
 	// Dodging movement
-	
+
 	if (dodgingLeft)
 	{
 		if (currentX > 85)
@@ -227,6 +208,8 @@ void Littlemac::Update()
 			comingBackfromDodgeLeft = true;
 		}
 	}
+
+	// Coming back from dodge movement
 	if (comingBackfromDodgeLeft)
 	{
 		if (currentX < 100)
@@ -275,9 +258,12 @@ void Littlemac::Update()
 	if (!isMoving)
 	{
 
+		// Checking for punch input
+
 		punchDir = Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_Z) ? -1 : 0 +
 			Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_X) ? 1 : 0;
 
+		// Left punch
 		if (punchDir == -1)
 		{
 			isPunching = true;
@@ -300,9 +286,10 @@ void Littlemac::Update()
 				isMoving = true;
 				animationDelay += 0.18;
 			}
-			
+
 		}
 
+		// Right punch
 
 		if (punchDir == 1)
 		{
@@ -326,14 +313,15 @@ void Littlemac::Update()
 				isMoving = true;
 				animationDelay += 0.18;
 			}
-			
+
 		}
-		
+
 	}
+
+	// Managing punch movement
 
 	if (highPunch)
 	{
-		
 
 		if (currentY > 100)
 		{
@@ -342,19 +330,19 @@ void Littlemac::Update()
 		}
 		else
 		{
-			
+
 			highPunch = false;
 			comingBackFromPunch = true;
 
-			
+
 		}
 	}
 	if (comingBackFromPunch)
 	{
-		
+
 		if (currentY < 119)
 		{
-			
+
 			currentY += SPEED * dt * 1.5f;
 			SetPosition(currentX, currentY);
 		}
@@ -394,30 +382,59 @@ void Littlemac::Update()
 		}
 	}
 
-	if (gj->GetProtectedState() == false && punchConnectedHighLeft == true && animationDelay <= 0)
+	// Punch RESULTS - Glass Joe is blocking LOW
+
+	if (gj->GetProtectedStateLow() == true && animationDelay <= 0)
 	{
-		std::cout << "CONNECTS HIGH LEFT!" << std::endl;
-		gj->GetsPunchedHighLeft();
-		punchConnectedHighLeft = false;
+		if (punchConnectedHighLeft)
+		{
+			std::cout << "CONNECTS HIGH LEFT!" << std::endl;
+			gj->GetsPunchedHighLeft();
+			AudioSys->PlaySound(Sounds->Get(Sound::ID::EnemyHit));
+			punchConnectedHighLeft = false;
+			gjHealth->LosesSmallHealth();
+		}
+		if (punchConnectedHighRight)
+		{
+			std::cout << "CONNECTS HIGH RIGHT!" << std::endl;
+			gj->GetsPunchedHighRight();
+			AudioSys->PlaySound(Sounds->Get(Sound::ID::EnemyHit));
+			punchConnectedHighRight = false;
+			gjHealth->LosesSmallHealth();
+		}
+		if (punchConnectedLow)
+		{
+			std::cout << "AND HE BLOCKS!!" << std::endl;
+			gj->SuccessfulBlockLow();
+			punchConnectedLow = false;
+		}
 	}
 
-	if (gj->GetProtectedState() == false && punchConnectedHighRight == true && animationDelay <= 0)
+	// Punch RESULTS - Glass Joe is blocking HIGH
+
+	if (gj->GetProtectedStateLow() == false && animationDelay <= 0)
 	{
-		std::cout << "CONNECTS HIGH RIGHT!" << std::endl;
-		gj->GetsPunchedHighRight();
-		punchConnectedHighRight = false;
+		if (punchConnectedHighLeft)
+		{
+			std::cout << "AND HE BLOCKS!" << std::endl;
+			gj->SuccessfulBlockHigh();
+			punchConnectedHighLeft = false;
+		}
+		if (punchConnectedHighRight)
+		{
+			std::cout << "AND HE BLOCKS!" << std::endl;
+			gj->SuccessfulBlockHigh();
+			punchConnectedHighRight = false;
+		}
+		if (punchConnectedLow)
+		{
+			std::cout << "CONNECTS LOW!" << std::endl;
+			gj->GetsPunchedLow();
+			AudioSys->PlaySound(Sounds->Get(Sound::ID::EnemyHit));
+			punchConnectedLow = false;
+			gjHealth->LosesSmallHealth();
+		}
 	}
-
-	if (gj->GetProtectedState() == false && punchConnectedLow == true && animationDelay <= 0)
-	{
-		std::cout << "CONNECTS LOW!" << std::endl;
-		gj->GetsPunchedLow();
-		punchConnectedLow = false;
-	}
-
-	
-	
-
 
 	//**************************BLOCK*********************************
 
@@ -435,22 +452,6 @@ void Littlemac::Update()
 		changeState(IDLE);
 		isBlockingHigh = false;
 	}
-
-
-
-	//Don't mind the brackets. Simply tried to save some screen space.
-	//Press Space to Pause & Resume
-	if (Engine::GetInstance()->GetInput()->IsKeyPressed(SDL_SCANCODE_SPACE)){
-		if (this->GetIsPlaying()){
-			this->Stop();
-		}
-		else {
-			this->Play();
-		}
-	}
-
-
-
 }
 
 

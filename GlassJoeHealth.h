@@ -23,8 +23,15 @@ public:
 	void Update();
 	void Stop();
 
+	float GetCurrentX(){ return currentX; }
+	float GetCurrentY(){ return currentY; }
+
+	void LosesSmallHealth();
+	void LosesBigHealth();
+
 private:
 	float currentX, currentY;
+	int healthQuantity;
 
 	static const float SPEED;
 };

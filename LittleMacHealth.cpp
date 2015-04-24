@@ -35,3 +35,12 @@ void LittleMacHealth::Update()
 void LittleMacHealth::Stop()
 {
 }
+
+void LittleMacHealth::losesSmallHealth()
+{
+
+}
+void LittleMacHealth::losesBigHealth()
+{
+
+}

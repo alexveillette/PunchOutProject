@@ -1,7 +1,5 @@
 #include "Engine.h"
 #include "Sprite.h"
-#include "Littlemac.h"
-#include "Glassjoe.h"
 #include "Stage.h"
 #include "Libraries.h"
 #include "Littlemac.h"
@@ -11,6 +9,8 @@
 #include "Hearts.h"
 #include "Stars.h"
 #include "Points.h"
+#include "Littlemac.h"
+#include "Glassjoe.h"
 #include "LittleMacHealth.h"
 #include "GlassJoeHealth.h"
 
@@ -27,7 +27,10 @@ int main(int argc, char* args[])
 	Textures->LoadTexture(Texture::ID::Stage, "background.png");
 	Textures->LoadTexture(Texture::ID::HealthBar, "healthbar.png");
 	Sounds->LoadSound(Sound::ID::EnemyHit, "EnemyHit.wav");
-	Musics->LoadMusic(Music::ID::TestMusic, "TestMusic.mp3");
+	Musics->LoadMusic(Music::ID::PunchOutMusic, "bouttheme.mp3");
+	Musics->LoadMusic(Music::ID::GlassJoeIntro, "glassjoeintro.mp3");
+	Musics->LoadMusic(Music::ID::GlassJoeKO, "glassjoeko.mp3");
+
 	Fonts->LoadFont(Font::ID::Dialog, "punchoutnes.ttf", 23);
 
 	//Soundtest		demonstrates the Audio system's functionnalities,	 look at SoundTest.H for info on the various controls: ([1-6], Numpad[1-6], +, -)
@@ -36,15 +39,18 @@ int main(int argc, char* args[])
 	//TextTest		demonstrates the Text system's functionnalities,	 look at TextTest.H for info on the various controls: (F1-F7)
 
 	//HEALTH IS 48 PIXELS
+	AudioSys->PlayMusic(Musics->Get(Music::ID::PunchOutMusic));
 	LittleMacHealth* littleMacHealth = new LittleMacHealth(90, 18);
 	GlassJoeHealth* glassJoeHealth = new GlassJoeHealth(146, 18);
 	Stage*		stage = new Stage(0, 0);
-	Glassjoe*	glassjoe = new Glassjoe(110, 67);
-	Littlemac*	littlemac = new Littlemac(100, 120, glassjoe);
-	PunchOutTimer* timer = new PunchOutTimer();
 	Hearts* hearts = new Hearts();
 	Stars* stars = new Stars();
 	Points* points = new Points();
+	Glassjoe*	gj = new Glassjoe(110, 67);
+	Littlemac*	lm = new Littlemac(100, 120, gj, hearts, stars, points, littleMacHealth, glassJoeHealth);
+
+	PunchOutTimer* timer = new PunchOutTimer();
+
 
 	Engine::GetInstance()->Run();
 

@@ -19,19 +19,21 @@ public:
 	Glassjoe(int x, int y);
 	~Glassjoe();
 
-	bool GetProtectedState() { return isProtected; }
+	bool GetProtectedStateLow() { return isProtectedLow; }
 	void Update();
 
 	void GetsPunchedLow();
 	void GetsPunchedHighLeft();
 	void GetsPunchedHighRight();
+	void SuccessfulBlockLow();
+	void SuccessfulBlockHigh();
 
 private:
 
 	float currentX;
 	float currentY;
 
-	bool isProtected;
+	bool isProtectedLow;
 
 	//States used to determine which animation will take place 
 	enum state { IDLE, HOOKPUNCH, JABPUNCH, GETSPUNCHED_LOW, GETSPUNCHED_HIGHLEFT, GETSPUNCHED_HIGHRIGHT, BLOCK_LOW, BLOCK_HIGH, FLYING, KNOCKED_DOWN };
@@ -47,7 +49,7 @@ private:
 	const int GETSPUNCHED_LOW_NB_FRAME() { return 1; }
 	const int GETSPUNCHED_HIGHLEFT_NB_FRAME() { return 1; }
 	const int GETSPUNCHED_HIGHRIGHT_NB_FRAME() { return 1; }
-	const int BLOCK_LOW_NB_FRAME() { return 1; }
+	const int BLOCK_LOW_NB_FRAME() { return 2; }
 	const int BLOCK_HIGH_NB_FRAME() { return 1; }
 	const int FLYING_NB_FRAME() { return 1; }
 	const int KNOCKED_DOWN_NB_FRAME() { return 1; }
@@ -58,8 +60,8 @@ private:
 	const point<int> GETSPUNCHED_LOW_START_SRC() { return{ 520, 0 }; };
 	const point<int> GETSPUNCHED_HIGHLEFT_START_SRC() { return{ 560, 0 }; };
 	const point<int> GETSPUNCHED_HIGHRIGHT_START_SRC() { return{ 600, 0 }; };
-	const point<int> BLOCK_LOW_START_SRC() { return{ 280, 220 }; };
-	const point<int> BLOCK_HIGH_START_SRC() { return{ 280, 220 }; };
+	const point<int> BLOCK_LOW_START_SRC() { return{ 160, 0 }; };
+	const point<int> BLOCK_HIGH_START_SRC() { return{ 360, 0 }; };
 	const point<int> FLYING_START_SRC() { return{ 280, 220 }; };
 	const point<int> KNOCKED_DOWN_START_SRC() { return{ 280, 220 }; };
 

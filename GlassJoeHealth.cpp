@@ -5,8 +5,7 @@ const float GlassJoeHealth::SPEED = 100;
 
 GlassJoeHealth::GlassJoeHealth()
 	: Sprite(Texture::ID::HealthBar)
-	, currentX(0)
-	, currentY(0)
+
 {
 }
 
@@ -14,6 +13,7 @@ GlassJoeHealth::GlassJoeHealth(int x, int y)
 	: Sprite(Texture::ID::HealthBar)
 	, currentX(x)
 	, currentY(y)
+	, healthQuantity(48)
 {
 	this->SetPosition(x, y);
 }
@@ -34,4 +34,15 @@ void GlassJoeHealth::Update()
 
 void GlassJoeHealth::Stop()
 {
+}
+
+void GlassJoeHealth::LosesSmallHealth()
+{
+	healthQuantity--;
+	currentX--;
+	SetPosition(currentX, currentY);
+}
+void GlassJoeHealth::LosesBigHealth()
+{
+
 }

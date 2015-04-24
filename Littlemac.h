@@ -5,6 +5,11 @@
 #include "Common.h"
 #include "Animation.h"
 #include "Glassjoe.h"
+#include "Hearts.h"
+#include "Stars.h"
+#include "Points.h"
+#include "LittleMacHealth.h"
+#include "GlassJoeHealth.h"
 
 
 //Press A for Idle
@@ -17,12 +22,19 @@ class Littlemac :
 {
 public:
 	Littlemac();
-	Littlemac(int x, int y, Glassjoe* gj);
+	Littlemac(int x, int y, Glassjoe* gj, Hearts* hearts, Stars* stars, Points* points, LittleMacHealth* lmHealth, GlassJoeHealth* gjHealth);
 	~Littlemac();
 
 	void Update();
 
 private:
+
+	Hearts* hearts; 
+	Stars* stars; 
+	Points* points; 
+	LittleMacHealth* lmHealth;
+	GlassJoeHealth* gjHealth;
+	Glassjoe* gj;
 
 	bool isMoving;
 
@@ -49,7 +61,6 @@ private:
 	float currentX;
 	float currentY;
 
-	Glassjoe* gj;
 
 	//States used to determine which animation will take place 
 	enum state { IDLE, LEFTDODGE, RIGHTDODGE, LEFTLOWPUNCH, LEFTHIGHPUNCH, RIGHTLOWPUNCH, RIGHTHIGHPUNCH, UPPERCUT, HIGHBLOCK, DUCK };

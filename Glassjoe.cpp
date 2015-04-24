@@ -5,8 +5,6 @@
 
 Glassjoe::Glassjoe()
 	: Animation(Texture::ID::Glassjoe, IDLE_NB_FRAME(), 3, IDLE_START_SRC(), FRAME_SIZE())
-	, currentState(IDLE)
-	, isProtected(false)
 {
 	//Start the animation on creation
 	this->Play();
@@ -19,7 +17,7 @@ Glassjoe::Glassjoe(int x, int y)
 	, currentState(IDLE)
 	, currentX(x)
 	, currentY(y)
-	, isProtected(false)
+	, isProtectedLow(true)
 {
 	this->SetPosition(x, y);
 	//Start the animation on creation
@@ -70,7 +68,7 @@ void Glassjoe::changeState(state newState)
 		case BLOCK_LOW:
 			this->SetSrcPos(BLOCK_LOW_START_SRC());
 			this->SetNbFrame(BLOCK_LOW_NB_FRAME());
-			this->SetFrameRate(3);
+			this->SetFrameRate(2);
 			break;
 		case BLOCK_HIGH:
 			this->SetSrcPos(BLOCK_HIGH_START_SRC());
@@ -132,6 +130,17 @@ void Glassjoe::GetsPunchedHighRight()
 	this->changeState(GETSPUNCHED_HIGHRIGHT);
 }
 
+void Glassjoe::SuccessfulBlockLow()
+{
+	std::cout << "HAHA BLOCK LOW" << std::endl;
+	this->changeState(BLOCK_LOW);
+
+}
+void Glassjoe::SuccessfulBlockHigh()
+{
+	std::cout << "HAHA BLOCK HIGH" << std::endl;
+	this->changeState(BLOCK_HIGH);
+}
 
 
 Glassjoe::~Glassjoe()

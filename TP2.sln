@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TP2", "TP2.vcxproj", "{AA163592-EEDD-42F5-ACC0-1F406B00FD3F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "..\..\bart-sdl-engine-h15\src\Core\Core.vcxproj", "{CACB57EB-0DE4-4E3F-B855-1CEBD28A0C4F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestEnvironment", "..\..\bart-sdl-engine-h15\src\TestEnvironment\TestEnvironment.vcxproj", "{18095BBD-15DB-47B2-B2B4-231D85D4F1D2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestEnvironment", "..\..\bart-sdl-engine-h15\src\TestEnvironment\TestEnvironment.vcxproj", "{2F6CD88C-8B02-4A1B-8960-2BCD1C7C317E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{CACB57EB-0DE4-4E3F-B855-1CEBD28A0C4F}.Debug|Win32.Build.0 = Debug|Win32
 		{CACB57EB-0DE4-4E3F-B855-1CEBD28A0C4F}.Release|Win32.ActiveCfg = Release|Win32
 		{CACB57EB-0DE4-4E3F-B855-1CEBD28A0C4F}.Release|Win32.Build.0 = Release|Win32
-		{18095BBD-15DB-47B2-B2B4-231D85D4F1D2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{18095BBD-15DB-47B2-B2B4-231D85D4F1D2}.Debug|Win32.Build.0 = Debug|Win32
-		{18095BBD-15DB-47B2-B2B4-231D85D4F1D2}.Release|Win32.ActiveCfg = Release|Win32
-		{18095BBD-15DB-47B2-B2B4-231D85D4F1D2}.Release|Win32.Build.0 = Release|Win32
+		{2F6CD88C-8B02-4A1B-8960-2BCD1C7C317E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F6CD88C-8B02-4A1B-8960-2BCD1C7C317E}.Debug|Win32.Build.0 = Debug|Win32
+		{2F6CD88C-8B02-4A1B-8960-2BCD1C7C317E}.Release|Win32.ActiveCfg = Release|Win32
+		{2F6CD88C-8B02-4A1B-8960-2BCD1C7C317E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
