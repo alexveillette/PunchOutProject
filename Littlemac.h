@@ -26,7 +26,8 @@ private:
 
 	bool isMoving;
 
-	double moveDelay;
+	double inputDelay;
+	double animationDelay;
 
 	bool isPunching;
 	bool isDodging;

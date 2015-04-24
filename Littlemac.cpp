@@ -7,6 +7,7 @@ const int LEFT_SIDE_PUNCH = 1;
 const int RIGHT_SIDE_PUNCH = 2;
 
 
+
 Littlemac::Littlemac()
 	: Animation(Texture::ID::Littlemac, IDLE_NB_FRAME(), 1, IDLE_START_SRC(), FRAME_SIZE())
 
@@ -24,7 +25,8 @@ Littlemac::Littlemac()
 	, comingBackFromLowPunch(false)
 	, isBlockingHigh(false)
 	, isMoving(false)
-	, moveDelay(0)
+	, inputDelay(0)
+	, animationDelay(0)
 	, punchConnectedLow(false)
 	, punchConnectedHighLeft(false)
 	, punchConnectedHighRight(false)
@@ -54,7 +56,8 @@ Littlemac::Littlemac(int x, int y, Glassjoe* gj)
 	, comingBackFromLowPunch(false)
 	, isBlockingHigh(false)
 	, isMoving(false)
-	, moveDelay(0)
+	, inputDelay(0)
+	, animationDelay(0)
 	, punchConnectedLow(false)
 	, punchConnectedHighLeft(false)
 	, punchConnectedHighRight(false)
@@ -143,13 +146,18 @@ void Littlemac::Update()
 	// Handling movement to prevent abusive input
 	if (isMoving)
 	{
-		moveDelay -= dt;
-		if (moveDelay <= 0)
+		inputDelay -= dt;
+		if (inputDelay <= 0)
 		{
-			moveDelay = 0;
+			inputDelay = 0;
 			isMoving = false;
 			
 		}
+	}
+
+	if (animationDelay > 0)
+	{
+		animationDelay -= dt;
 	}
 	
 
@@ -183,7 +191,7 @@ void Littlemac::Update()
 		{
 			changeState(LEFTDODGE);
 			isMoving = true;
-			moveDelay += 0.4;
+			inputDelay += 0.4;
 			dodgingLeft = true;
 			
 		}
@@ -191,7 +199,7 @@ void Littlemac::Update()
 		{
 			changeState(RIGHTDODGE);
 			isMoving = true;
-			moveDelay += 0.4;
+			inputDelay += 0.4;
 			dodgingRight = true;
 		}
 		
@@ -278,14 +286,21 @@ void Littlemac::Update()
 			{
 				changeState(LEFTHIGHPUNCH);
 				highPunch = true;
+				punchConnectedHighLeft = true;
+				inputDelay += 0.3;
+				isMoving = true;
+				animationDelay += 0.18;
 			}
 			else
 			{
 				changeState(LEFTLOWPUNCH);
 				lowPunch = true;
+				punchConnectedLow = true;
+				inputDelay += 0.3;
+				isMoving = true;
+				animationDelay += 0.18;
 			}
-			moveDelay += 0.3;
-			isMoving = true;
+			
 		}
 
 
@@ -297,14 +312,21 @@ void Littlemac::Update()
 			{
 				changeState(RIGHTHIGHPUNCH);
 				highPunch = true;
+				punchConnectedHighRight = true;
+				inputDelay += 0.3;
+				isMoving = true;
+				animationDelay += 0.18;
 			}
 			else
 			{
 				changeState(RIGHTLOWPUNCH);
 				lowPunch = true;
+				punchConnectedLow = true;
+				inputDelay += 0.3;
+				isMoving = true;
+				animationDelay += 0.18;
 			}
-			moveDelay += 0.3;
-			isMoving = true;
+			
 		}
 		
 	}
@@ -330,9 +352,6 @@ void Littlemac::Update()
 	if (comingBackFromPunch)
 	{
 		
-
-		
-
 		if (currentY < 119)
 		{
 			
@@ -375,19 +394,29 @@ void Littlemac::Update()
 		}
 	}
 
-	if (gj->GetProtectedState() == false)
+	if (gj->GetProtectedState() == false && punchConnectedHighLeft == true && animationDelay <= 0)
 	{
-		if (punchDir < 0)
-		{
-			std::cout << "CONNECTS HIGH LEFT!" << std::endl;
-			gj->GetsPunchedHighLeft();
-		}
-		else if (punchDir == 1)
-		{
-			std::cout << "CONNECTS HIGH RIGHT!" << std::endl;
-			gj->GetsPunchedHighRight();
-		}
+		std::cout << "CONNECTS HIGH LEFT!" << std::endl;
+		gj->GetsPunchedHighLeft();
+		punchConnectedHighLeft = false;
 	}
+
+	if (gj->GetProtectedState() == false && punchConnectedHighRight == true && animationDelay <= 0)
+	{
+		std::cout << "CONNECTS HIGH RIGHT!" << std::endl;
+		gj->GetsPunchedHighRight();
+		punchConnectedHighRight = false;
+	}
+
+	if (gj->GetProtectedState() == false && punchConnectedLow == true && animationDelay <= 0)
+	{
+		std::cout << "CONNECTS LOW!" << std::endl;
+		gj->GetsPunchedLow();
+		punchConnectedLow = false;
+	}
+
+	
+	
 
 
 	//**************************BLOCK*********************************

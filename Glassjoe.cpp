@@ -5,7 +5,7 @@
 
 Glassjoe::Glassjoe()
 	: Animation(Texture::ID::Glassjoe, IDLE_NB_FRAME(), 3, IDLE_START_SRC(), FRAME_SIZE())
-	, currentState(GETSPUNCHED_HIGHLEFT)
+	, currentState(IDLE)
 	, isProtected(false)
 {
 	//Start the animation on creation
@@ -16,7 +16,7 @@ Glassjoe::Glassjoe()
 
 Glassjoe::Glassjoe(int x, int y)
 	: Animation(Texture::ID::Glassjoe, IDLE_NB_FRAME(), 4, IDLE_START_SRC(), FRAME_SIZE())
-	, currentState(GETSPUNCHED_HIGHLEFT)
+	, currentState(IDLE)
 	, currentX(x)
 	, currentY(y)
 	, isProtected(false)
@@ -125,13 +125,11 @@ void Glassjoe::GetsPunchedHighLeft()
 {
 	std::cout << "OUCH HIGH LEFT" << std::endl;
 	this->changeState(GETSPUNCHED_HIGHLEFT);
-
 }
 void Glassjoe::GetsPunchedHighRight()
 {
 	std::cout << "OUCH HIGH RIGHT" << std::endl;
 	this->changeState(GETSPUNCHED_HIGHRIGHT);
-
 }
 
 

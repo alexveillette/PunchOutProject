@@ -8,7 +8,8 @@ namespace Texture
 	{
 		Littlemac,
 		Glassjoe,
-		Stage
+		Stage,
+		HealthBar
 	};
 }
 

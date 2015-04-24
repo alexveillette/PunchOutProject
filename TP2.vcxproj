@@ -80,8 +80,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Glassjoe.cpp" />
+    <ClCompile Include="GlassJoeHealth.cpp" />
     <ClCompile Include="Hearts.cpp" />
     <ClCompile Include="Littlemac.cpp" />
+    <ClCompile Include="LittleMacHealth.cpp" />
     <ClCompile Include="Marioref.cpp" />
     <ClCompile Include="Points.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -96,9 +98,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Glassjoe.h" />
+    <ClInclude Include="GlassJoeHealth.h" />
     <ClInclude Include="Hearts.h" />
     <ClInclude Include="Libraries.h" />
     <ClInclude Include="Littlemac.h" />
+    <ClInclude Include="LittleMacHealth.h" />
     <ClInclude Include="Marioref.h" />
     <ClInclude Include="Points.h" />
     <ClInclude Include="ResourceIDs.h" />
