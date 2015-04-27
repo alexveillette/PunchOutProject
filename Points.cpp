@@ -5,7 +5,7 @@ std::stringstream pts;
 
 Points::Points()
 	:Text("", Font::ID::Dialog, 700)
-	, pointQuantity(100)
+	, pointQuantity(0)
 
 {
 	SetPosition(188, 27);
@@ -27,6 +27,10 @@ void Points::Update()
 	{
 		this->SetPosition(172, 27);
 	}
+	if (pointQuantity >= 1000)
+	{
+		this->SetPosition(156, 27);
+	}
 	pts << pointQuantity;
 
 
@@ -37,4 +41,9 @@ void Points::Update()
 
 void Points::Stop()
 {
+}
+
+void Points::PunchPoints()
+{
+	pointQuantity += 100;
 }

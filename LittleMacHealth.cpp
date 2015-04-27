@@ -14,6 +14,7 @@ LittleMacHealth::LittleMacHealth(int x, int y)
 	: Sprite(Texture::ID::HealthBar)
 	, currentX(x)
 	, currentY(y)
+	, healthQuantity(48)
 {
 	this->SetPosition(x, y);
 }
@@ -26,21 +27,21 @@ void LittleMacHealth::Start()
 {
 }
 
+
 void LittleMacHealth::Update()
 {
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
+	
 }
 
 void LittleMacHealth::Stop()
 {
 }
 
-void LittleMacHealth::losesSmallHealth()
+void LittleMacHealth::LosesSmallHealth()
 {
-
-}
-void LittleMacHealth::losesBigHealth()
-{
-
+	healthQuantity -= 8;
+	currentX -= 8;
+	SetPosition(currentX, currentY);
 }

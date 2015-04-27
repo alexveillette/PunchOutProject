@@ -15,6 +15,9 @@ public:
 	void Update();
 	void Stop();
 
+	int GetNumberOfStars(){ return starQuantity; }
+	void SetNumberOfHearts(int number){ starQuantity = number; }
+
 private:
 	int starQuantity;
 

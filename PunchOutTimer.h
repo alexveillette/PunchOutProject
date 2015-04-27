@@ -26,6 +26,9 @@ public:
 	void Update();
 	void Stop();
 
+	void isStarted();
+	void isStopped();
+
 private:
 	float secondsTen;
 	float secondsOne;

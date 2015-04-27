@@ -9,13 +9,13 @@ PunchOutTimer::PunchOutTimer()
 	, minutes(0)
 	, secondsTen(0)
 	, secondsOne(0)
-	, started(true)
+	, started(false)
 	, elapsedTime(0)
+
 	 
 {
 	SetPosition(209, 18);
 	this->Scale(0.4);
-	
 	SetText(ss.str());
 }
 
@@ -29,29 +29,41 @@ void PunchOutTimer::Start()
 
 void PunchOutTimer::Update()
 {
-	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
-
-	ss << minutes << ":" << secondsTen << (int) secondsOne;
 	
-	secondsOne += dt * 2;	
 	
+		float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
-	if (secondsOne >= 10)
-	{
-		secondsOne = 0;
-		secondsTen++;
-	}
-	if (secondsTen >= 6)
-	{
-		secondsTen = 0;
-		minutes++;
-	}
+		ss << minutes << ":" << secondsTen << (int) secondsOne;
+		
+		if (started)
+		{
+			secondsOne += dt * 2;	
+		}
 
-	SetText(ss.str());
-	Text::Update();
-	ss.str(std::string());
+		if (secondsOne >= 10)
+		{
+			secondsOne = 0;
+			secondsTen++;
+		}
+		if (secondsTen >= 6)
+		{
+			secondsTen = 0;
+			minutes++;
+		}
+
+		SetText(ss.str());
+		Text::Update();
+		ss.str(std::string());
+	
 }
-
+void PunchOutTimer::isStarted()
+{
+	started = true;
+}
+void PunchOutTimer::isStopped()
+{
+	started = false;
+}
 void PunchOutTimer::Stop()
 {
 }

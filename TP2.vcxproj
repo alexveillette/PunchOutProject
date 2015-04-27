@@ -79,7 +79,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Black.cpp" />
+    <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="Glassjoe.cpp" />
+    <ClCompile Include="GlassJoeBody.cpp" />
     <ClCompile Include="GlassJoeHealth.cpp" />
     <ClCompile Include="Hearts.cpp" />
     <ClCompile Include="Littlemac.cpp" />
@@ -90,6 +93,8 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="PunchOutTimer.cpp" />
     <ClCompile Include="Stars.cpp" />
+    <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="VictoryScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\bart-sdl-engine-h15\src\Core\Core.vcxproj">
@@ -97,7 +102,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Black.h" />
+    <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="Glassjoe.h" />
+    <ClInclude Include="GlassJoeBody.h" />
     <ClInclude Include="GlassJoeHealth.h" />
     <ClInclude Include="Hearts.h" />
     <ClInclude Include="Libraries.h" />
@@ -109,6 +117,8 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="PunchOutTimer.h" />
     <ClInclude Include="Stars.h" />
+    <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="VictoryScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

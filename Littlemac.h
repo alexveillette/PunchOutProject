@@ -10,7 +10,11 @@
 #include "Points.h"
 #include "LittleMacHealth.h"
 #include "GlassJoeHealth.h"
-
+#include "TitleScreen.h"
+#include "Marioref.h"
+#include "PunchOutTimer.h"
+#include "GameOverScreen.h"
+#include "VictoryScreen.h"
 
 //Press A for Idle
 //Press B for Walk
@@ -22,12 +26,24 @@ class Littlemac :
 {
 public:
 	Littlemac();
-	Littlemac(int x, int y, Glassjoe* gj, Hearts* hearts, Stars* stars, Points* points, LittleMacHealth* lmHealth, GlassJoeHealth* gjHealth);
+	Littlemac(int x, int y, Glassjoe* gj, Hearts* hearts, Stars* stars, Points* points, LittleMacHealth* lmHealth, GlassJoeHealth* gjHealth, 
+		TitleScreen* ts, MarioRef* mr, PunchOutTimer* POTimer, GameOverScreen* goScreen, VictoryScreen* viScreen);
 	~Littlemac();
 
 	void Update();
+	void StartGame();
+	void IsEnabled();
+	void IsDisabled();
+	void CheckForKO();
+	void Victory(int countNumber);
+
+	void ReceivesPunch();
+
+	void SetEnabled(bool enabled) { this->enabled = enabled; }
 
 private:
+
+	
 
 	Hearts* hearts; 
 	Stars* stars; 
@@ -35,7 +51,16 @@ private:
 	LittleMacHealth* lmHealth;
 	GlassJoeHealth* gjHealth;
 	Glassjoe* gj;
+	TitleScreen* ts;
+	MarioRef* mr;
+	PunchOutTimer* POTimer;
+	GameOverScreen* goScreen;
+	VictoryScreen* viScreen;
 
+	bool startGame;
+	bool enabled;
+	bool gameStarting;
+	
 	bool isMoving;
 
 	double inputDelay;
@@ -56,6 +81,14 @@ private:
 	bool punchConnectedLow;
 	bool punchConnectedHighLeft;
 	bool punchConnectedHighRight;
+	bool glassJoeKnockedDown;
+	bool victoryBool;
+	bool getsPunched;
+	bool hasWon;
+	bool hasLost;
+	bool knockedOut;
+
+	int numberOfKO;
 
 	Vector2D dodgeDir;
 	float currentX;
@@ -63,7 +96,7 @@ private:
 
 
 	//States used to determine which animation will take place 
-	enum state { IDLE, LEFTDODGE, RIGHTDODGE, LEFTLOWPUNCH, LEFTHIGHPUNCH, RIGHTLOWPUNCH, RIGHTHIGHPUNCH, UPPERCUT, HIGHBLOCK, DUCK };
+	enum state { IDLE, LEFTDODGE, RIGHTDODGE, LEFTLOWPUNCH, LEFTHIGHPUNCH, RIGHTLOWPUNCH, RIGHTHIGHPUNCH, UPPERCUT, HIGHBLOCK, DUCK, VICTORY, KNOCKEDOUT };
 	state currentState;
 
 	//State Setter
@@ -82,6 +115,8 @@ private:
 	const int UPPERCUT_NB_FRAME() { return 5; }
 	const int HIGHBLOCK_NB_FRAME() { return 1; }
 	const int DUCK_NB_FRAME() { return 1; }
+	const int VICTORY_NB_FRAME() { return 2; }
+	const int KNOCKEDOUT_NB_FRAME() { return 1; }
 	const point<int> FRAME_SIZE() { return{ 40, 81 }; };
 	const point<int> IDLE_START_SRC() { return{ 0, 0 }; };
 	const point<int> LEFTDODGE_START_SRC() { return{ 120, 0 }; };
@@ -93,6 +128,8 @@ private:
 	const point<int> UPPERCUT_START_SRC() { return{ 0, 0 }; };
 	const point<int> HIGHBLOCK_START_SRC() { return{ 320, 0 }; };
 	const point<int> DUCK_START_SRC() { return{ 0, 0 }; };
+	const point<int> VICTORY_START_SRC() { return{ 560, 248 }; };
+	const point<int> KNOCKEDOUT_START_SRC() { return{ 520, 248 }; };
 
 
 	static const float SPEED;

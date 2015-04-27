@@ -26,11 +26,16 @@ public:
 	float GetCurrentX(){ return currentX; }
 	float GetCurrentY(){ return currentY; }
 
-	void losesSmallHealth();
-	void losesBigHealth();
+	int GetHealthQuantity(){ return healthQuantity; }
+	void SetHealthQuantity(int health){ this->healthQuantity = health; }
+
+
+	void LosesSmallHealth();
 
 private:
 	float currentX, currentY;
+
+	int healthQuantity;
 
 	static const float SPEED;
 };

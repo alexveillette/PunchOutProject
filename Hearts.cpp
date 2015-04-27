@@ -40,6 +40,10 @@ void Hearts::Update()
 	hs.str(std::string());
 }
 
+void Hearts::LosesHeart()
+{
+	heartQuantity--;
+}
 void Hearts::Stop()
 {
 }

@@ -9,7 +9,15 @@ namespace Texture
 		Littlemac,
 		Glassjoe,
 		Stage,
-		HealthBar
+		HealthBar,
+		TitleScreen,
+		VictoryScreen,
+		GameOverScreen,
+		MarioRef,
+		GlassJoeBody,
+		GameOverImage,
+		VictoryImage,
+		BlackBackground
 	};
 }
 
@@ -28,7 +36,10 @@ namespace Music
 		PunchOutMusic,
 		GlassJoeKO,
 		LittleMacKO,
-		GlassJoeIntro
+		GlassJoeIntro,
+		TitleScreen,
+		GameOverScreen,
+		VictoryScreen
 	};
 }
 

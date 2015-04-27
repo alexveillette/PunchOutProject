@@ -14,6 +14,7 @@ public:
 	void Start();
 	void Update();
 	void Stop();
+	void PunchPoints();
 
 private:
 	int pointQuantity;

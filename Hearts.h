@@ -15,6 +15,11 @@ public:
 	void Update();
 	void Stop();
 
+	void LosesHeart();
+
+	int GetNumberOfHearts(){return heartQuantity;}
+	void SetNumberOfHearts(int number){ heartQuantity = number; }
+
 private:
 	int heartQuantity;
 

@@ -14,6 +14,7 @@ GlassJoeHealth::GlassJoeHealth(int x, int y)
 	, currentX(x)
 	, currentY(y)
 	, healthQuantity(48)
+	, restoringHealth(false)
 {
 	this->SetPosition(x, y);
 }
@@ -30,6 +31,18 @@ void GlassJoeHealth::Update()
 {
 	float dt = Engine::GetInstance()->GetTimer()->GetDeltaTime();
 
+	if (restoringHealth == true);
+	{
+		if (currentX < (healthQuantity + 98))
+		{
+			currentX += SPEED * dt * 0.3f;
+			SetPosition(currentX, currentY);
+		}
+		else
+		{
+			restoringHealth = false;
+		}
+	}
 }
 
 void GlassJoeHealth::Stop()
@@ -38,11 +51,19 @@ void GlassJoeHealth::Stop()
 
 void GlassJoeHealth::LosesSmallHealth()
 {
-	healthQuantity--;
-	currentX--;
+	healthQuantity-= 4;
+	currentX -= 4;
 	SetPosition(currentX, currentY);
+
 }
 void GlassJoeHealth::LosesBigHealth()
 {
 
+}
+
+void GlassJoeHealth::RestoreHealth()
+{
+	int healthToRestore = rand() % 20 + 22;
+	healthQuantity += healthToRestore;
+	restoringHealth = true;
 }
